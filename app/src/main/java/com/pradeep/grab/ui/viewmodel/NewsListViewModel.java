@@ -28,7 +28,7 @@ public class NewsListViewModel extends ViewModel {
       mNewsLiveData = new MutableLiveData<>();
     }
 
-    mNewsLiveData.postValue(new State().loading());
+    mNewsLiveData.postValue(new State().onLoading());
     mNewsRepository.getNewsList().subscribe(new SingleObserver() {
       @Override
       public void onSubscribe(Disposable d) {
@@ -38,16 +38,16 @@ public class NewsListViewModel extends ViewModel {
       public void onSuccess(Object result) {
         if (result instanceof News) {
           List<Article> list = ((News) result).getArticles();
-          mNewsLiveData.postValue(new State().success(list));
+          mNewsLiveData.postValue(new State().onSuccess(list));
 
         } else {
-          mNewsLiveData.postValue(new State().success(result));
+          mNewsLiveData.postValue(new State().onSuccess(result));
         }
       }
 
       @Override
       public void onError(Throwable error) {
-        mNewsLiveData.postValue(new State().error(error));
+        mNewsLiveData.postValue(new State().onError(error));
       }
     });
 

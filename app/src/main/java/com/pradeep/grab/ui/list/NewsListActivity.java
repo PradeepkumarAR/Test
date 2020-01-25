@@ -2,7 +2,9 @@ package com.pradeep.grab.ui.list;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -25,20 +27,18 @@ import javax.inject.Inject;
  */
 public class NewsListActivity extends AppCompatActivity implements OnItemClickListener<Article> {
 
-  //@Inject
-  //NewsListViewModel newsListViewModel;
-
   @Inject
   ViewModelFactory mViewModelFactory;
-  // newsListViewModel;
 
   private NewsListAdapter mNewsListAdapter;
+  private ProgressBar mProgressIndicator;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     ((NewsApp) getApplicationContext()).mAppComponent.inject(this);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_newslist);
+    mProgressIndicator = findViewById(R.id.progress_indicator);
     setupToolBar();
     setupRecyclerView();
 
@@ -53,7 +53,10 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
 
   @Override
   public void onItemClicked(Article article) {
+    gotoDetails(article);
+  }
 
+  private void gotoDetails(Article article) {
     String url = article.getUrl();
     if (isTwoPane()) {
       Bundle arguments = new Bundle();
@@ -72,12 +75,22 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
   private void updateUi(State state) {
     switch (state.getState()) {
       case State.STATE_LOADING:
+        showProgessIndicator(true);
         break;
       case State.STATE_ERROR:
+        showProgessIndicator(false);
+        Toast.makeText(NewsListActivity.this, "An Error occurred :(", Toast.LENGTH_LONG).show();
         break;
       case State.STATE_SUCCESS:
+        showProgessIndicator(false);
+
         List<Article> articles = (List<Article>) state.getResponse();
         mNewsListAdapter.updateNews(articles);
+
+        //In case of tablets load the detail fragment with 1st news
+        if (articles.size() > 0 && isTwoPane()) {
+          gotoDetails(articles.get(0));
+        }
         break;
     }
   }
@@ -98,5 +111,8 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
     return findViewById(R.id.item_detail_container) != null;
   }
 
+  private void showProgessIndicator(boolean isVisible) {
+    mProgressIndicator.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+  }
 
 }

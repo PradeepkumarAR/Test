@@ -10,21 +10,21 @@ public class State<T> {
   private Throwable error;
   private T response;
 
-  public State<T> loading() {
+  public State<T> onLoading() {
     this.state = STATE_LOADING;
     this.response = null;
     this.error = null;
     return this;
   }
 
-  public State<T> success(T data) {
+  public State<T> onSuccess(T data) {
     this.state = STATE_SUCCESS;
     this.response = data;
     this.error = null;
     return this;
   }
 
-  public State<T> error(Throwable error) {
+  public State<T> onError(Throwable error) {
     this.state = STATE_ERROR;
     this.response = null;
     this.error = error;

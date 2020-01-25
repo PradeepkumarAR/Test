@@ -31,16 +31,15 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.item_newst, parent, false);
+        .inflate(R.layout.item_news, parent, false);
     return new ViewHolder(view);
   }
 
   @Override
   public void onBindViewHolder(final ViewHolder holder, final int position) {
-    holder.mIdView.setText(mNewsList.get(position).getContent());
-    holder.mContentView.setText(mNewsList.get(position).getAuthor());
+    holder.title.setText(mNewsList.get(position).getTitle());
+    holder.author.setText(mNewsList.get(position).getAuthor());
 
-    holder.itemView.setTag(mNewsList.get(position));
     holder.itemView.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -56,13 +55,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
 
   class ViewHolder extends RecyclerView.ViewHolder {
 
-    final TextView mIdView;
-    final TextView mContentView;
+    final TextView title;
+    final TextView author;
 
     ViewHolder(View view) {
       super(view);
-      mIdView = view.findViewById(R.id.id_text);
-      mContentView = view.findViewById(R.id.content);
+      title = view.findViewById(R.id.title);
+      author = view.findViewById(R.id.author);
     }
   }
 }

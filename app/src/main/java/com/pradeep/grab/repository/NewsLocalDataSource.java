@@ -41,7 +41,7 @@ public class NewsLocalDataSource {
 
           @Override
           public void onSuccess(Object o) {
-            Log.d(TAG, "Clear db success");
+            Log.d(TAG, "Clear db onSuccess");
             insertArticlesToDb(articles);
           }
 

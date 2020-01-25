@@ -24,11 +24,11 @@
     android:name="com.pradeep.grab.ItemListFragment"
     android:layout_width="@dimen/item_width"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="@dimen/dimen_6dp"
+    android:layout_marginRight="@dimen/dimen_6dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.list.NewsListActivity"
-    tools:listitem="@layout/item_newst" />
+    tools:listitem="@layout/item_news" />
 
   <FrameLayout
     android:id="@+id/item_detail_container"
