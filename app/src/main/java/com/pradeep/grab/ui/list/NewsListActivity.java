@@ -75,14 +75,14 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
   private void updateUi(State state) {
     switch (state.getState()) {
       case State.STATE_LOADING:
-        showProgessIndicator(true);
+        showProgressIndicator(true);
         break;
       case State.STATE_ERROR:
-        showProgessIndicator(false);
+        showProgressIndicator(false);
         Toast.makeText(NewsListActivity.this, "An Error occurred :(", Toast.LENGTH_LONG).show();
         break;
       case State.STATE_SUCCESS:
-        showProgessIndicator(false);
+        showProgressIndicator(false);
 
         List<Article> articles = (List<Article>) state.getResponse();
         mNewsListAdapter.updateNews(articles);
@@ -111,7 +111,7 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
     return findViewById(R.id.item_detail_container) != null;
   }
 
-  private void showProgessIndicator(boolean isVisible) {
+  private void showProgressIndicator(boolean isVisible) {
     mProgressIndicator.setVisibility(isVisible ? View.VISIBLE : View.GONE);
   }
 

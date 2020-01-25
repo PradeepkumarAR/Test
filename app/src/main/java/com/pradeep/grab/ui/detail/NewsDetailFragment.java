@@ -73,13 +73,13 @@ public class NewsDetailFragment extends Fragment {
 
       @Override
       public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        showProgessIndicator(true);
+        showProgressIndicator(true);
         view.loadUrl(url);
         return true;
       }
 
       public void onPageFinished(WebView view, String url) {
-        showProgessIndicator(false);
+        showProgressIndicator(false);
 
       }
     });
@@ -87,7 +87,7 @@ public class NewsDetailFragment extends Fragment {
     mWebView.loadUrl(mUrlToLoad);
   }
 
-  private void showProgessIndicator(boolean isVisible) {
+  private void showProgressIndicator(boolean isVisible) {
     mProgressIndicator.setVisibility(isVisible ? View.VISIBLE : View.GONE);
   }
 }
