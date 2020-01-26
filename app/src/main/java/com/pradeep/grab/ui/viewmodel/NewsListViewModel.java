@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.pradeep.grab.model.Article;
 import com.pradeep.grab.repository.NewsRepository;
-import com.pradeep.grab.utils.State;
+import com.pradeep.grab.utils.ResultState;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import java.util.List;
@@ -19,21 +19,21 @@ import javax.inject.Inject;
 public class NewsListViewModel extends ViewModel {
 
   private NewsRepository mNewsRepository;
-  private MutableLiveData<State> mNewsLiveData;
+  private MutableLiveData<ResultState> mNewsLiveData;
 
   @Inject
   public NewsListViewModel(NewsRepository newsRepository) {
     mNewsRepository = newsRepository;
   }
 
-  public LiveData<State> getNewsLiveData(String country) {
+  public LiveData<ResultState> getNewsLiveData(String country) {
 
     if (mNewsLiveData == null) {
       mNewsLiveData = new MutableLiveData<>();
     }
 
     //loading state
-    mNewsLiveData.postValue(new State().onLoading());
+    mNewsLiveData.postValue(new ResultState().onLoading());
 
     mNewsRepository.getNewsList(country).subscribe(new Observer<List<Article>>() {
       @Override
@@ -43,12 +43,12 @@ public class NewsListViewModel extends ViewModel {
 
       @Override
       public void onNext(List<Article> articles) {
-        mNewsLiveData.setValue(new State().onSuccess(articles));
+        mNewsLiveData.setValue(new ResultState().onSuccess(articles));
       }
 
       @Override
       public void onError(Throwable e) {
-        mNewsLiveData.setValue(new State().onError(e));
+        mNewsLiveData.setValue(new ResultState().onError(e));
       }
 
       @Override

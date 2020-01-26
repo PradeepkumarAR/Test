@@ -17,7 +17,7 @@ import com.pradeep.grab.ui.detail.NewsDetailActivity;
 import com.pradeep.grab.ui.detail.NewsDetailFragment;
 import com.pradeep.grab.ui.viewmodel.NewsListViewModel;
 import com.pradeep.grab.utils.OnItemClickListener;
-import com.pradeep.grab.utils.State;
+import com.pradeep.grab.utils.ResultState;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -67,18 +67,18 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
 
   }
 
-  private void updateUi(State state) {
+  private void updateUi(ResultState state) {
     switch (state.getState()) {
-      case State.STATE_LOADING:
+      case ResultState.STATE_LOADING:
         showProgressIndicator(true);
         break;
-      case State.STATE_ERROR:
+      case ResultState.STATE_ERROR:
         showProgressIndicator(false);
         if (mNodata) {
           Toast.makeText(NewsListActivity.this, "An Error occurred...", Toast.LENGTH_LONG).show();
         }
         break;
-      case State.STATE_SUCCESS:
+      case ResultState.STATE_SUCCESS:
         showProgressIndicator(false);
 
         List<Article> articles = (List<Article>) state.getResponse();

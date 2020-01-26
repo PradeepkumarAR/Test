@@ -1,6 +1,6 @@
 package com.pradeep.grab.utils;
 
-public class State<T> {
+public class ResultState<T> {
 
   public static final int STATE_LOADING = 0;
   public static final int STATE_SUCCESS = 1;
@@ -10,21 +10,21 @@ public class State<T> {
   private Throwable error;
   private T response;
 
-  public State<T> onLoading() {
+  public ResultState<T> onLoading() {
     this.state = STATE_LOADING;
     this.response = null;
     this.error = null;
     return this;
   }
 
-  public State<T> onSuccess(T data) {
+  public ResultState<T> onSuccess(T data) {
     this.state = STATE_SUCCESS;
     this.response = data;
     this.error = null;
     return this;
   }
 
-  public State<T> onError(Throwable error) {
+  public ResultState<T> onError(Throwable error) {
     this.state = STATE_ERROR;
     this.response = null;
     this.error = error;
