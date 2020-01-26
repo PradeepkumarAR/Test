@@ -1,19 +1,18 @@
 package com.pradeep.grab.repository;
 
-import android.util.Log;
 import com.pradeep.grab.database.dao.NewsDao;
 import com.pradeep.grab.model.Article;
+import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import javax.inject.Inject;
 
+/**
+ * Deals with local data read/write operations on Room db
+ */
 public class NewsLocalDataSource {
-
-  public static final String TAG = "NewsLocalDataSource";
 
   private NewsDao mNewsDao;
 
@@ -22,6 +21,12 @@ public class NewsLocalDataSource {
     mNewsDao = newsDao;
   }
 
+  /**
+   * Returns the list of articles present in the db
+   *
+   * @return Single<List < Article>>
+   * @see NewsDao
+   */
   public Single<List<Article>> getNewsList() {
     return mNewsDao
         .getAll()
@@ -29,31 +34,14 @@ public class NewsLocalDataSource {
         .observeOn(AndroidSchedulers.mainThread());
   }
 
-  public void updateCache(final List<Article> articles) {
-    mNewsDao.clearTable()
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new SingleObserver() {
-          @Override
-          public void onSubscribe(Disposable d) {
-
-          }
-
-          @Override
-          public void onSuccess(Object o) {
-            Log.d(TAG, "Clear db onSuccess");
-            insertArticlesToDb(articles);
-          }
-
-          @Override
-          public void onError(Throwable e) {
-            Log.d(TAG, "Clear db failure");
-          }
-        });
-  }
-
-  public void insertArticlesToDb(List<Article> articles) {
-    mNewsDao.insertAll(articles.toArray(new Article[articles.size()]))
+  /**
+   * Inserts the list of articles into the db
+   *
+   * @param articles - of type List
+   * @see NewsDao
+   */
+  public Completable insertArticles(List<Article> articles) {
+    return mNewsDao.insertAll(articles)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread());
   }

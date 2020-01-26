@@ -2,7 +2,7 @@ package com.pradeep.grab.repository;
 
 import com.pradeep.grab.model.News;
 import com.pradeep.grab.network.NewsService;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 import javax.inject.Inject;
 
 public class NewsRemoteDataSource {
@@ -14,7 +14,7 @@ public class NewsRemoteDataSource {
     mNewsService = newsService;
   }
 
-  public Single<News> getNewsList() {
-    return mNewsService.getNews();
+  public Observable<News> getNewsList(String countryCode) {
+    return mNewsService.getNews(countryCode);
   }
 }

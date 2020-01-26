@@ -5,10 +5,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import com.pradeep.grab.utils.Constants;
 
-@Entity(tableName = Constants.DB_NEWS_TABLE)
+@Entity(tableName = Constants.DB_NEWS_TABLE, indices = @Index(value = {"url"}, unique = true))
 public class Article implements Parcelable {
 
   public Article() {

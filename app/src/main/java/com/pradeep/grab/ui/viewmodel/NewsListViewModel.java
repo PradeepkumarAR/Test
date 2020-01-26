@@ -4,14 +4,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.pradeep.grab.model.Article;
-import com.pradeep.grab.model.News;
 import com.pradeep.grab.repository.NewsRepository;
 import com.pradeep.grab.utils.State;
-import io.reactivex.SingleObserver;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import java.util.List;
 import javax.inject.Inject;
 
+/**
+ * Responsible for knotting NewsListActivity with repository.
+ *
+ * @see NewsRepository
+ */
 public class NewsListViewModel extends ViewModel {
 
   private NewsRepository mNewsRepository;
@@ -22,32 +26,34 @@ public class NewsListViewModel extends ViewModel {
     mNewsRepository = newsRepository;
   }
 
-  public LiveData<State> getNewsLiveData() {
+  public LiveData<State> getNewsLiveData(String country) {
 
     if (mNewsLiveData == null) {
       mNewsLiveData = new MutableLiveData<>();
     }
 
+    //loading state
     mNewsLiveData.postValue(new State().onLoading());
-    mNewsRepository.getNewsList().subscribe(new SingleObserver() {
+
+    mNewsRepository.getNewsList(country).subscribe(new Observer<List<Article>>() {
       @Override
       public void onSubscribe(Disposable d) {
+
       }
 
       @Override
-      public void onSuccess(Object result) {
-        if (result instanceof News) {
-          List<Article> list = ((News) result).getArticles();
-          mNewsLiveData.postValue(new State().onSuccess(list));
-
-        } else {
-          mNewsLiveData.postValue(new State().onSuccess(result));
-        }
+      public void onNext(List<Article> articles) {
+        mNewsLiveData.setValue(new State().onSuccess(articles));
       }
 
       @Override
-      public void onError(Throwable error) {
-        mNewsLiveData.postValue(new State().onError(error));
+      public void onError(Throwable e) {
+        mNewsLiveData.setValue(new State().onError(e));
+      }
+
+      @Override
+      public void onComplete() {
+
       }
     });
 

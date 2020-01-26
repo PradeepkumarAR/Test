@@ -2,13 +2,14 @@ package com.pradeep.grab.ui.list;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.pradeep.grab.R;
 import com.pradeep.grab.model.Article;
 import com.pradeep.grab.utils.OnItemClickListener;
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +38,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
 
   @Override
   public void onBindViewHolder(final ViewHolder holder, final int position) {
-    holder.title.setText(mNewsList.get(position).getTitle());
-    holder.author.setText(mNewsList.get(position).getAuthor());
-
-    holder.itemView.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        mOnItemClickListener.onItemClicked(mNewsList.get(position));
-      }
-    });
+    Article article = mNewsList.get(position);
+    holder.title.setText(article.getTitle());
+    holder.author.setText(article.getAuthor());
+    Picasso.get().load(article.getUrlToImage()).into(holder.bannerImage);
+    holder.itemView.setOnClickListener(view -> mOnItemClickListener.onItemClicked(mNewsList.get(position)));
   }
 
   @Override
@@ -57,11 +54,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
 
     final TextView title;
     final TextView author;
+    final ImageView bannerImage;
 
     ViewHolder(View view) {
       super(view);
       title = view.findViewById(R.id.title);
       author = view.findViewById(R.id.author);
+      bannerImage = view.findViewById(R.id.banner_img);
     }
   }
 }

@@ -42,8 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/dimen_6dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/news_title_text_color"
         android:textSize="@dimen/text_size_10sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:text="Author" />

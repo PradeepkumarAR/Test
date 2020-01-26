@@ -7,7 +7,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import com.pradeep.grab.NewsApp;
@@ -32,6 +31,7 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
 
   private NewsListAdapter mNewsListAdapter;
   private ProgressBar mProgressIndicator;
+  private boolean mNodata = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +43,7 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
     setupRecyclerView();
 
     NewsListViewModel newsListViewModel = ViewModelProviders.of(this, mViewModelFactory).get(NewsListViewModel.class);
-    newsListViewModel.getNewsLiveData().observe(this, new Observer<State>() {
-      @Override
-      public void onChanged(State state) {
-        updateUi(state);
-      }
-    });
+    newsListViewModel.getNewsLiveData("us").observe(this, state -> updateUi(state));
   }
 
   @Override
@@ -79,13 +74,16 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
         break;
       case State.STATE_ERROR:
         showProgressIndicator(false);
-        Toast.makeText(NewsListActivity.this, "An Error occurred :(", Toast.LENGTH_LONG).show();
+        if (mNodata) {
+          Toast.makeText(NewsListActivity.this, "An Error occurred...", Toast.LENGTH_LONG).show();
+        }
         break;
       case State.STATE_SUCCESS:
         showProgressIndicator(false);
 
         List<Article> articles = (List<Article>) state.getResponse();
         mNewsListAdapter.updateNews(articles);
+        mNodata = articles.size() == 0;
 
         //In case of tablets load the detail fragment with 1st news
         if (articles.size() > 0 && isTwoPane()) {

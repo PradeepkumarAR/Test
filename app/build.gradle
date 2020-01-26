@@ -17,6 +17,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility = 1.8
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -49,6 +57,12 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.25.3' // if you use the support libraries
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.25.3'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.25.3'
+
+    //ok http
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     //For binding view with view models
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
