@@ -1,6 +1,5 @@
 ## Pattern -  MVVM
 
-####Package Structure
 - **database** - handles operation deals with db opeartions.
 - **di** - handles operations related to dependency injection.
 - **model** - defines the structure of db table and data structure of news/articles.
