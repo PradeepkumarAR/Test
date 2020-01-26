@@ -43,7 +43,8 @@ public class NewsListActivity extends AppCompatActivity implements OnItemClickLi
     setupRecyclerView();
 
     NewsListViewModel newsListViewModel = ViewModelProviders.of(this, mViewModelFactory).get(NewsListViewModel.class);
-    newsListViewModel.getNewsLiveData("us").observe(this, state -> updateUi(state));
+    newsListViewModel.getLiveData().observe(this, state -> updateUi(state));
+    newsListViewModel.getNews("us");
   }
 
   @Override

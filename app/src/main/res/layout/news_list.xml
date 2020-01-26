@@ -8,6 +8,7 @@
   android:layout_height="match_parent"
   android:layout_marginLeft="@dimen/dimen_6dp"
   android:layout_marginRight="@dimen/dimen_6dp"
+  android:layout_marginBottom="@dimen/dimen_12dp"
   app:layoutManager="LinearLayoutManager"
   tools:context=".ui.list.NewsListActivity"
   tools:listitem="@layout/item_news" />

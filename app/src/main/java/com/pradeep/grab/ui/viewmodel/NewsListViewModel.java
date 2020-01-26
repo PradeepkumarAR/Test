@@ -1,6 +1,5 @@
 package com.pradeep.grab.ui.viewmodel;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.pradeep.grab.model.Article;
@@ -24,16 +23,17 @@ public class NewsListViewModel extends ViewModel {
   @Inject
   public NewsListViewModel(NewsRepository newsRepository) {
     mNewsRepository = newsRepository;
+    mNewsLiveData = new MutableLiveData<>();
   }
 
-  public LiveData<ResultState> getNewsLiveData(String country) {
+  public MutableLiveData<ResultState> getLiveData() {
+    return mNewsLiveData;
+  }
 
-    if (mNewsLiveData == null) {
-      mNewsLiveData = new MutableLiveData<>();
-    }
+  public void getNews(String country) {
 
     //loading state
-    mNewsLiveData.postValue(new ResultState().onLoading());
+    mNewsLiveData.setValue(new ResultState().onLoading());
 
     mNewsRepository.getNewsList(country).subscribe(new Observer<List<Article>>() {
       @Override
@@ -56,7 +56,5 @@ public class NewsListViewModel extends ViewModel {
 
       }
     });
-
-    return mNewsLiveData;
   }
 }
